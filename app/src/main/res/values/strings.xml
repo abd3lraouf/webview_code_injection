@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Code Injection</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="home_fragment_label">Code Injection</string>
+</resources>
