@@ -1,15 +1,18 @@
 package tech.abd3lraouf.learn.codeinjection
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.webkit.WebView.setWebContentsDebuggingEnabled
 import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
+import tech.abd3lraouf.learn.codeinjection.JavaScriptShareInterface.Companion.sendMessage
 import tech.abd3lraouf.learn.codeinjection.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,10 +22,10 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,8 +40,20 @@ class HomeFragment : Fragment() {
             JavaScriptShareInterface.bind(requireContext(), this)
             webViewClient = CustomWebViewClient
 
-            loadUrl("https://abdelraoufsabri.github.io/webview_code_injection_from_android")
+            loadUrl("https://abd3lraouf.github.io/webview_code_injection_from_android")
         }
+
+        binding.btnSend.setOnClickListener {
+            val message = binding.etMessage.text.toString()
+            binding.etMessage.setText("")
+            binding.webView.sendMessage(message = message)
+            hideKeyboard()
+        }
+    }
+
+    private fun Fragment.hideKeyboard(): Boolean {
+        return (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow((activity?.currentFocus ?: View(context)).windowToken, 0)
     }
 
     override fun onDestroyView() {
@@ -47,7 +62,7 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
     }
 
-    object CustomWebViewClient : WebViewClient(){
+    object CustomWebViewClient : WebViewClient() {
         override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             JavaScriptShareInterface.injectMediator(view)

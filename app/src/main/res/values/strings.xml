@@ -2,4 +2,7 @@
     <string name="app_name">Code Injection</string>
     <!-- Strings used for fragments for navigation -->
     <string name="home_fragment_label">Code Injection</string>
+    <string name="message_to_be_sent">message to be sent</string>
+    <string name="we_can_send_data_to_the_web_app">We Can send data to the web app</string>
+    <string name="send">Send</string>
 </resources>

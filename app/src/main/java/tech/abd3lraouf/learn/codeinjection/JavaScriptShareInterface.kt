@@ -47,5 +47,12 @@ class JavaScriptShareInterface(private val context: Context) {
                 null
             )
         }
+
+        /**
+         * called to send a message to the web app
+         */
+        fun WebView.sendMessage(message: String) {
+            evaluateJavascript("messageMe(\"$message\")", null)
+        }
     }
 }
